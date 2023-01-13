@@ -21,6 +21,10 @@
   <ItemGroup>
     <ClCompile Include="code.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include=".editorconfig" />
+    <None Include="readme.md" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

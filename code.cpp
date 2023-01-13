@@ -634,74 +634,194 @@ int main() {
 }
 */
 
+/**********************************************************************************************************
 // 1088 [대곽]행렬 회전과 반전
-//#include<bits/stdc++.h>
-//
-//using namespace std;
-//
-//int main() {
-//
-//	return 0;
-//}
+#include <bits/stdc++.h>
 
-#include <stdio.h>
-int main()
-{
+using namespace std;
+
+int main() {
 	int arr[4][4];
 	int tmp[4][4];
 	int i, j, k;
 
 	for (i = 0; i < 4; i++) {
 		for (j = 0; j < 4; j++) {
-			scanf("%d", &arr[i][j]);
+			cin >> arr[i][j];
 		}
 	}
 	int N;
-	scanf("%d", &N);
+	cin >> N;
 	for (k = 0; k < N; k++) {
 		int cmd;
-		scanf("%d", &cmd);
-		if (cmd == 1) {
-			//시계방향
+		cin >> cmd;
+		switch (cmd) {
+		case 1: // 시계방향 회전
 			for (i = 0; i < 4; i++) {
 				for (j = 0; j < 4; j++) {
-					tmp[][] = arr[i][j];
+					tmp[j][3 - i] = arr[i][j];
 				}
 			}
-		}
-		else if (cmd == 2) {
-			//반시계
+			break;
+		case 2: // 반시계방향 회전
 			for (i = 0; i < 4; i++) {
 				for (j = 0; j < 4; j++) {
-					tmp[][] = arr[i][j];
+					tmp[3 - j][i] = arr[i][j];
 				}
 			}
-		}
-		else if (cmd == 3) {
-			//좌우
+			break;
+		case 3: // 좌우 반전
 			for (i = 0; i < 4; i++) {
 				for (j = 0; j < 4; j++) {
-					tmp[][] = arr[i][j];
+					tmp[i][3 - j] = arr[i][j];
 				}
 			}
-		}
-		else if (cmd == 4) {
-			//상하
+			break;
+		case 4: // 상하 반전
 			for (i = 0; i < 4; i++) {
 				for (j = 0; j < 4; j++) {
-					tmp[][] = arr[i][j];
+					tmp[3 - i][j] = arr[i][j];
 				}
 			}
+			break;
+		default:
+			break;
 		}
 		for (i = 0; i < 4; i++) {
 			for (j = 0; j < 4; j++) {
 				arr[i][j] = tmp[i][j];
-				printf("%d ", arr[i][j]);
+				cout << arr[i][j] << " ";
 			}
-			printf("\n");
+			cout << endl;
 		}
-		printf("\n");
+		cout << endl;
 	}
+
+	return 0;
+}
+*/
+
+/**********************************************************************************************************
+// 1089 [대곽] 끝으로 이동 1
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+	int arr[4][4];
+	int tmp[4][4];
+	int i, j, k, l;
+	for (i = 0; i < 4; i++) for (j = 0; j < 4; j++) cin >> arr[i][j];
+	int N;
+	cin >> N;
+	for (k = 0; k < N; k++) {
+		for (int a = 0; a < 4; a++) for (int b = 0; b < 4; b++) tmp[a][b] = 0;
+		int cmd;
+		cin >> cmd;
+		switch (cmd) {
+		case 1: // 오른쪽 끝
+			l = 3;
+			for (i = 0; i < 4; i++) for (j = 0; j < 4; j++) tmp[i][j] = 0;
+			for (i = 0; i < 4; i++) {
+				int chk = 0;
+				for (int a = 0; a < 4; a++) chk += arr[i][a];
+				if (chk != 4) {
+					for (j = 0; j < 4; j++) {
+						if (arr[i][j] == 1) {
+							while (tmp[i][l] == 1) {
+								l--;
+								if (l < 0)break;
+							}
+							tmp[i][l] = arr[i][j];
+						}
+						l = 3;
+					}
+				}
+				else for (j = 0; j < 4; j++) tmp[i][j] = arr[i][j];
+			}
+			break;
+		case 2: // 왼쪽 끝
+			l = 0;
+			for (i = 0; i < 4; i++) {
+				int chk = 0;
+				for (int a = 0; a < 4; a++) chk += arr[i][a];
+				if (chk != 4) {
+					for (j = 0; j < 4; j++) {
+						if (arr[i][j] == 1) {
+							while (tmp[i][l] == 1) {
+								l++;
+								if (l > 4)break;
+							}
+							tmp[i][l] = arr[i][j];
+						}
+						l = 0;
+					}
+				}
+				else for (j = 0; j < 4; j++) tmp[i][j] = arr[i][j];
+			}
+			break;
+		case 3: // 위쪽 끝
+			l = 0;
+			for (i = 0; i < 4; i++) {
+				int chk = 0;
+				for (int a = 0; a < 4; a++) chk += arr[a][i];
+				if (chk != 4) {
+					for (j = 0; j < 4; j++) {
+						if (arr[j][i] == 1) {
+							while (tmp[l][i] == 1) {
+								l++;
+								if (l > 4)break;
+							}
+							tmp[l][i] = arr[j][i];
+						}
+						l = 0;
+					}
+				}
+				else for (j = 0; j < 4; j++) tmp[j][i] = arr[j][i];
+			}
+			break;
+		case 4: // 아래쪽 끝
+			l = 3;
+			for (i = 0; i < 4; i++) {
+				int chk = 0;
+				for (int a = 0; a < 4; a++) chk += arr[a][i];
+				if (chk != 4) {
+					for (j = 0; j < 4; j++) {
+						if (arr[j][i] == 1) {
+							while (tmp[l][i] == 1) {
+								l--;
+								if (l < 0)break;
+							}
+							tmp[l][i] = arr[j][i];
+						}
+						l = 3;
+					}
+				}
+				else for (j = 0; j < 4; j++) tmp[j][i] = arr[j][i];
+			}
+			break;
+		default:
+			break;
+		}
+		for (i = 0; i < 4; i++) {
+			for (j = 0; j < 4; j++) {
+				arr[i][j] = tmp[i][j];
+				cout << arr[i][j] << " ";
+			}
+			cout << endl;
+		}
+		cout << endl;
+	}
+	return 0;
+}
+*/
+
+// 1090 [대곽]끝으로 이동 2
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
 
 	return 0;
 }
